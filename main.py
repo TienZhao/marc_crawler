@@ -200,5 +200,5 @@ if __name__ == '__main__':
     bottom_template_path = 'C://HelloWorld//python//marc_crawler//html_bottom.html'
     html_folder_path = 'C://HelloWorld//python//marc_crawler//html//'
     log_file_path = 'C://HelloWorld//python//marc_crawler//log.txt'
-
+    # Execute the main function
     main()
