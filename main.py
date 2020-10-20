@@ -5,20 +5,19 @@ from bs4 import BeautifulSoup
 
 
 def make_html_path():
-    # Make HTML file name out of current time, e.g. '2020-10-19.html'
-    file_name = time.strftime("%Y-%m-%d", time.localtime()) + ".html"
-    dir = 'C://HelloWorld//python//marc_crawler//'
-    path = dir + file_name
+    # Make HTML file name out of current time, e.g. '2020-10-19-15-14.html'
+    _file_name = time.strftime("%Y-%m-%d-%H-%M", time.localtime()) + ".html"
+    path = os.path.join(working_dir, _file_name)
     return path
 
 
-def write_html_template(_template_path, _output_path):
+def write_html_template(_template_path, _output_html_path):
     # Dump the HTML template to the output file
     fr = open(_template_path, 'r', encoding='UTF-8')
     template = fr.read()
     fr.close()
 
-    fw = open(_output_path, 'a', encoding='UTF-8')
+    fw = open(_output_html_path, 'a', encoding='UTF-8')
     fw.write(template)
     fw.close()
     return True
@@ -84,10 +83,11 @@ def read_input_txt(_path):
     return crawl_work_arr
 
 
-def crawler(_input_arr, _html_folder_path, _log_file_path, _output_html_path):
+def crawler(_input_arr, _log_file_path, _output_html_path):
     # CRAWLER
     _progress = 0
     _workload = len(_input_arr)
+    _html_folder_path = os.path.join(working_dir, 'html/')
     _file_name_arr = get_html_name_in_dir(_html_folder_path)
     while _progress < _workload:
         _word = _input_arr[_progress]
@@ -178,7 +178,7 @@ def has_word_result(_word, _file_name_arr):
 
 
 def main():
-    # Create output HTML file name in the format of '2020-10-19.html'
+    # Create output HTML file name in the format of '2020-10-19-15-14.html'
     output_html_path = make_html_path()
     # Write the top part of HTML (copied from a DRAE result page) into the output HTML file.
     write_html_template(top_template_path, output_html_path)
@@ -187,7 +187,7 @@ def main():
     # All letters are lower-cased in this step.
     words_to_crawl_arr = read_input_txt(input_txt_path)
     # Download all the pages of the input words
-    crawler(words_to_crawl_arr, html_folder_path, log_file_path, output_html_path)
+    crawler(words_to_crawl_arr, log_file_path, output_html_path)
 
     # Write the bottom part of HTML (copied from a DRAE result page) into the output HTML file.
     write_html_template(bottom_template_path, output_html_path)
@@ -195,10 +195,10 @@ def main():
 
 if __name__ == '__main__':
     # Path of HTML templates
-    input_txt_path = 'C://HelloWorld//python//marc_crawler//input.txt'
-    top_template_path = 'C://HelloWorld//python//marc_crawler//html_top.html'
-    bottom_template_path = 'C://HelloWorld//python//marc_crawler//html_bottom.html'
-    html_folder_path = 'C://HelloWorld//python//marc_crawler//html//'
-    log_file_path = 'C://HelloWorld//python//marc_crawler//log.txt'
+    working_dir = os.path.dirname(__file__)
+    input_txt_path = os.path.join(working_dir, 'input.txt')
+    top_template_path = os.path.join(working_dir, 'html_top.html')
+    bottom_template_path = os.path.join(working_dir, 'html_bottom.html')
+    log_file_path = os.path.join(working_dir, 'log.txt')
     # Execute the main function
     main()
