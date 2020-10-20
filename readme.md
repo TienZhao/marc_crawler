@@ -1,6 +1,6 @@
 # marc_crawler 
 
-*In honor of my crafty and stingy teacher, Marc.*
+*In honor of my crafty and stingy teacher, Marc. Pero es un buen hombre*.
 
 Author: Tien
 
@@ -8,7 +8,7 @@ Last Update: 2020-10-20
 
 ### Introduction
 
-This is a crawler task assigned by my Spanish teacher Marc, aiming to batch download the pages from the Diccionario de la Real Academia Española (DRAE) and parse it into a collection of definitions, according to the request of his superior.
+This is a crawler task assigned by my Spanish teacher Marc, aiming to batch download the pages from the Diccionario de la Real Academia Española (DRAE) and parse it into a collection of definitions, according to the request of his superior. As his student, Tien is not paid anything for sure, therefore it is currently a non-profit, open-source project so far.
 
 The input of this file is a list of vocabulary copied down from the textbook 《现代西班牙语学生用书》(Español Moderno - Libro del Alumno).
 
@@ -21,7 +21,7 @@ The program is written in python 3.7, with the help of some common libraries inc
 - Read the input TXT into an array of words.
 - Make an empty HTML file with the CSS of DRAE.
 - Download the DRAE result pages according to the vocabulary array. (Or open from the local history.)
-- Parse the definition elements (<article>) and copy them to the output HTML.
+- Parse the definition elements (\<article\>) and copy them to the output HTML.
 - Save the output HTML file.
 - Save the PDF file accordingly.
 
