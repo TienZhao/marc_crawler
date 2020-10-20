@@ -1,12 +1,14 @@
-import time, string, socket, random, os
+import time, string, socket, random, os, pdfkit, webbrowser
 import urllib.request
 import http.cookiejar
 from bs4 import BeautifulSoup
 
 
-def make_html_path():
-    # Make HTML file name out of current time, e.g. '2020-10-19-15-14.html'
-    _file_name = time.strftime("%Y-%m-%d-%H-%M", time.localtime()) + ".html"
+def make_output_path(_suffix):
+    # Make file name out of current time and the given suffix, e.g. '2020-10-19-15-14.html'
+    if _suffix[0:1] != '.':
+        _suffix = '.' + _suffix
+    _file_name = time.strftime("%Y-%m-%d-%H-%M", time.localtime()) + _suffix
     path = os.path.join(working_dir, _file_name)
     return path
 
@@ -177,9 +179,26 @@ def has_word_result(_word, _file_name_arr):
         return False
 
 
+def print_pdf(path_wkhtmltopdf, output_html_path, output_pdf_path):
+    config = pdfkit.configuration(wkhtmltopdf = path_wkhtmltopdf)
+    pdfkit.from_file(output_html_path, output_pdf_path, configuration=config)
+
+
+def print_word(output_html_path, output_word_path, output_pdf_path):
+    import win32com.client
+    word = win32com.client.Dispatch('Word.Application')
+    doc = word.Documents.Add(output_html_path)
+    doc.SaveAs(output_word_path, FileFormat=0)
+    doc.SaveAs(output_pdf_path, FileFormat=17)
+    doc.Close()
+    word.Quit()
+
+
 def main():
-    # Create output HTML file name in the format of '2020-10-19-15-14.html'
-    output_html_path = make_html_path()
+    # Create output file name in the format of '2020-10-19-15-14.html'
+    output_html_path = make_output_path('.html')
+    output_word_path = make_output_path('.doc')
+    output_pdf_path = make_output_path('.pdf')
     # Write the top part of HTML (copied from a DRAE result page) into the output HTML file.
     write_html_template(top_template_path, output_html_path)
 
@@ -191,6 +210,13 @@ def main():
 
     # Write the bottom part of HTML (copied from a DRAE result page) into the output HTML file.
     write_html_template(bottom_template_path, output_html_path)
+    time.sleep(random.random() * 1)
+
+    # Convert the HTML to PDF
+    # [IMPORTANT] Both functions can give the pdf output, but neither render the fonts perfectly.as the browsers do.
+    # print_pdf(path_wkhtmltopdf, output_html_path, output_pdf_path)
+    print_word(output_html_path, output_word_path, output_pdf_path)
+    webbrowser.open(output_html_path)
 
 
 if __name__ == '__main__':
@@ -200,5 +226,11 @@ if __name__ == '__main__':
     top_template_path = os.path.join(working_dir, 'html_top.html')
     bottom_template_path = os.path.join(working_dir, 'html_bottom.html')
     log_file_path = os.path.join(working_dir, 'log.txt')
+
+    # [IMPORTANT] Wkhtmltopdf can't render the fonts perfectly.
+    # Path of locally installed wkhtmltopdf
+    # Downloaded here: https://wkhtmltopdf.org/downloads.html
+    path_wkhtmltopdf = r'C:\Program Files\wkhtmltopdf\bin\wkhtmltopdf.exe'
+
     # Execute the main function
     main()

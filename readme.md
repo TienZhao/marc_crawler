@@ -14,7 +14,7 @@ The input of this file is a list of vocabulary copied down from the textbook 《
 
 The output is ideally a PDF file with a certain template and all the DRAE definitions of the given vocabulary. However, it would be also acceptable if the result is in other formats (which can be converted to PDF easily).
 
-The program is written in python 3.7, with the help of some common libraries including bs4, urllib, etc.
+The program is written in python 3.7, with the help of some common libraries including bs4, urllib, etc. To convert HTML into PDF, a software and python library 'wkhtmltopdf' (https://wkhtmltopdf.org/downloads.html) is also used in this program. 
 
 ### Roadmap
 
@@ -31,6 +31,12 @@ The program is written in python 3.7, with the help of some common libraries inc
 - The roadmap is drafted. (2020-10-18)
 - Crawler function is finished. (2020-10-19)
 - HTML output is generally good, but with some minor issues. (2020-10-20)
+- HTML output is finished. (2020-10-20)
+- PDF output function is not good, because it's hard to find the HTML to PDF converting tool whose visualization is as good as browsers. As a result, this step has to be done manually.
+  - Tried 'wkhtmltopdf', however many fonts were missing, and the word spacing is totally messed up.
+  - Tried 'win32com.client' for '.doc' and '.pdf' conversion, while some fonts (titles) are still missing. This solution might be useful in some circumstances, thus it is kept in the main.py.
+  - 'webbrowser' is used at the end of the script, opening the output html with default browser.
+- A larger-scale test is to be carried out, to test the stability of the software.
 - Estimated to finish on: 2020-10-25.
 
 ### Issues
