@@ -49,3 +49,7 @@ The program is written in python 3.7, with the help of some common libraries inc
   - Result: Issue fixed in the 2020-10-20 update, by deleting a few lines of CSS code in template (html_top.html) with the beginning of "@media only print..."
 - An additional request was mentioned by Marc, which is to keep only the top (3) definitions of a word. However Tien, the developer, suggested that it might cause some confusion, since the definitions are grouped by part of speech in DRAE result.
   - This request is put aside temporarily.
+- Duplicate results appeared when inputting the transitive and pronominal forms of a verb, e. g. asombrar, asombrarse.
+  - The problem is because both transitive and pronominal forms share a same page in DRAE. The URL "https://dle.rae.es/asombrarse" auto-redirects to "https://dle.rae.es/asombrar".
+  - The temporary measure is to remove the pronominal verbs in the inputs (or replace them with the transitive form).
+  - In the future, there should be a input checker. If pronominal, then omit '-se', and compare it with the processed ones; if not in history, then process.
