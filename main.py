@@ -81,7 +81,10 @@ def read_input_txt(_path):
     fr = open(_path, 'r', encoding='UTF-8')
     for line in fr:
         # Lower-case all letters and omit the blanks
-        crawl_work_arr.append(line[:-1].lower().strip())
+        if line[-1:] == '\n':
+            crawl_work_arr.append(line[:-1].lower().strip())
+        else:
+            crawl_work_arr.append(line.lower().strip())
     return crawl_work_arr
 
 
